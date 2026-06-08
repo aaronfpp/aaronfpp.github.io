@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    OSU Fire Protection Publications
+    All work product and content in this repository is property of
+    Oklahoma State University — Fire Protection Publications (OSU FPP).
+  -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- =============================================
+       EDIT THIS SECTION — personal info
+  ============================================= -->
+  <title>aaronfpp</title>
+  <meta name="description" content="Public tooling and legacy projects — Aaron Hill, OSU Fire Protection Publications." />
+
+  <!-- =============================================
+       CONFIG
+       GITHUB_USER   — GitHub username to pull from
+       SORT          — 'updated' | 'stars' | 'created'
+       EXCLUDE_FORKS — hide forked repos
+  ============================================= -->
+  <script>
+    const GITHUB_USER   = 'aaronfpp';
+    const SORT          = 'updated';   // 'updated' | 'stars' | 'created'
+    const EXCLUDE_FORKS = true;
+  </script>
+  <!-- ============================================= -->
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon"            href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="apple-touch-icon"                    href="/apple-touch-icon.png" />
+  <link rel="manifest"                            href="/site.webmanifest" />
+  <meta name="theme-color" content="#1a1d2e" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ================================================
+       AARONFPP — DESIGN SYSTEM  v1.0.0
+       Based on aaronfpp style guide.
+       Adjust --hue (0–360) and --chroma (0–0.2)
+       to shift the entire palette in one edit.
+    ================================================ */
+    :root {
+      --hue:    230;
+      --chroma: 0.06;
+
+      --bg-dark:      oklch(0.14 calc(var(--chroma) * 0.5) var(--hue));
+      --bg:           oklch(0.18 calc(var(--chroma) * 0.5) var(--hue));
+      --bg-light:     oklch(0.23 calc(var(--chroma) * 0.5) var(--hue));
+
+      --text:         oklch(0.94 0.01 var(--hue));
+      --text-muted:   oklch(0.62 0.02 var(--hue));
+      --text-faint:   oklch(0.42 0.02 var(--hue));
+
+      --highlight:    oklch(0.32 calc(var(--chroma) * 0.6) var(--hue));
+      --border:       oklch(0.28 calc(var(--chroma) * 0.5) var(--hue));
+      --border-muted: oklch(0.22 calc(var(--chroma) * 0.3) var(--hue));
+
+      --primary:      oklch(0.65 0.18 var(--hue));
+      --primary-dim:  oklch(0.55 0.16 var(--hue));
+      --secondary:    oklch(0.72 0.14 calc(var(--hue) + 40));
+
+      --success:      oklch(0.68 0.18 150);
+      --success-bg:   oklch(0.20 0.05 150);
+      --warning:      oklch(0.75 0.18  80);
+
+      --radius-sm:   4px;
+      --radius-md:   10px;
+      --radius-lg:   16px;
+      --radius-full: 9999px;
+
+      --font-sans: 'Manrope', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+      --transition: 200ms ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-dark);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    a:hover { color: var(--secondary); }
+
+    /* ---- Layout ---- */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ---- Hero ---- */
+    .hero {
+      padding: 5rem 0 3.5rem;
+      border-bottom: 1px solid var(--border-muted);
+      animation: fade-up 0.5s ease both;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .hero h1 .handle {
+      font-family: var(--font-mono);
+      color: var(--primary);
+      font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* ---- Buttons ---- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition), transform var(--transition);
+      border: 1px solid var(--border);
+      background: var(--bg-light);
+      color: var(--text);
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: var(--highlight);
+      border-color: var(--highlight);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+    .btn:active { transform: translateY(0); }
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--bg-dark);
+    }
+    .btn-primary:hover {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: var(--bg-dark);
+    }
+    .btn-ghost {
+      background: transparent;
+      border-color: transparent;
+      color: var(--text-muted);
+    }
+    .btn-ghost:hover {
+      background: var(--bg-light);
+      border-color: var(--border-muted);
+      color: var(--text);
+    }
+    .btn-sm {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.72rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ---- Sections ---- */
+    .section { padding: 3.5rem 0; }
+    .section + .section { border-top: 1px solid var(--border-muted); }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      gap: 1rem;
+    }
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .section-link {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .section-link:hover { color: var(--primary); }
+
+    /* ---- About / bio ---- */
+    .bio {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+    }
+    .bio-text p { color: var(--text-muted); margin-bottom: 0.75rem; }
+    .bio-text p:last-child { margin-bottom: 0; }
+    .bio-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-width: 120px;
+    }
+    .stat { text-align: right; }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+      transition: opacity var(--transition);
+    }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); }
+    .stat-value.loading { opacity: 0.3; }
+
+    /* ---- Project grid ---- */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    /* ---- Card ---- */
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border-muted);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: border-color var(--transition), background var(--transition), transform var(--transition);
+      animation: fade-up 0.4s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .card:hover { border-color: var(--highlight); background: var(--bg-light); transform: translateY(-2px); }
+    .card:hover::before { opacity: 1; }
+
+    .card-name {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .card-name a { color: inherit; text-decoration: none; }
+    .card-name a:hover { color: var(--primary); }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .card-desc-empty { font-style: italic; color: var(--text-faint); }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.4rem;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .card-badges { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+    .card-links  { display: flex; align-items: center; gap: 0.4rem; }
+
+    /* ---- Badges ---- */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+    }
+    /* Live — green dot, derived from repo.homepage being set */
+    .badge-live {
+      background: var(--success-bg);
+      color: var(--success);
+      border-color: var(--success);
+    }
+    .badge-live::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    /* Active — primary blue, default for non-archived repos */
+    .badge-active {
+      background: oklch(0.22 0.06 var(--hue));
+      color: var(--primary);
+      border-color: var(--primary-dim);
+    }
+    /* Archived — muted, derived from repo.archived === true */
+    .badge-archived {
+      background: var(--bg-light);
+      color: var(--text-muted);
+      border-color: var(--border-muted);
+    }
+
+    /* ---- Language dot ---- */
+    .lang {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ---- Skeleton loading ---- */
+    .skeleton {
+      background: var(--bg);
+      border: 1px solid var(--border-muted);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .skel {
+      border-radius: 4px;
+      background: var(--bg-light);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    .skel-title  { height: 14px; width: 55%; }
+    .skel-line   { height: 11px; width: 100%; }
+    .skel-line-sm{ height: 11px; width: 70%; }
+    .skel-foot   { height: 11px; width: 40%; margin-top: 0.4rem; }
+
+    /* ---- Error state ---- */
+    .api-error {
+      grid-column: 1 / -1;
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-muted);
+      background: var(--bg);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .api-error a { color: var(--primary); }
+
+    /* ---- Footer ---- */
+    footer {
+      border-top: 1px solid var(--border-muted);
+      padding: 2rem 0;
+      color: var(--text-faint);
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    footer a { color: var(--text-faint); }
+    footer a:hover { color: var(--primary); }
+
+    /* ---- Animations ---- */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 0.9; }
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 600px) {
+      .bio { grid-template-columns: 1fr; }
+      .bio-stats { flex-direction: row; flex-wrap: wrap; min-width: unset; }
+      .stat { text-align: left; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================================================
+       OSU Fire Protection Publications
+       All work product and content in this repository is
+       property of Oklahoma State University —
+       Fire Protection Publications (OSU FPP).
+  ====================================================== -->
+
+  <div class="page">
+
+    <!-- Hero -->
+    <header class="hero">
+      <p class="hero-eyebrow">OSU Fire Protection Publications</p>
+      <h1>Aaron Hill &nbsp;<span class="handle">/ aaronfpp</span></h1>
+      <p class="hero-subtitle">
+        Systems Analyst at Oklahoma State University. A reference for public
+        tooling and legacy projects built for OSU FPP operations — available
+        for collaboration, contribution, and future handoff.
+      </p>
+      <div class="hero-links">
+        <a class="btn btn-primary" href="https://github.com/aaronfpp" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482
+              0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464
+              -.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832
+              .092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683
+              -.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836
+              c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647
+              .64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852
+              0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12
+              c0-5.523-4.477-10-10-10z"/>
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </header>
+
+    <!-- About -->
+    <section class="section" aria-labelledby="about-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="about-heading">About</h2>
+      </div>
+      <div class="bio">
+        <div class="bio-text">
+          <p>
+            Systems Analyst at Oklahoma State University Fire Protection
+            Publications. This is a reference index for public tooling and
+            legacy projects built during my time at OSU FPP.
+          </p>
+          <p>
+            Projects here are open for collaboration, contribution, and
+            future handoff to OSU FPP developers.
+          </p>
+        </div>
+        <div class="bio-stats">
+          <!-- Populated dynamically from the GitHub API -->
+          <div class="stat">
+            <div class="stat-value loading" id="stat-repos">&mdash;</div>
+            <div class="stat-label">repositories</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value loading" id="stat-stars">&mdash;</div>
+            <div class="stat-label">total stars</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section" aria-labelledby="projects-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="projects-heading">Projects</h2>
+        <a class="section-link"
+           href="https://github.com/aaronfpp?tab=repositories"
+           target="_blank" rel="noopener">
+          All repositories &rarr;
+        </a>
+      </div>
+      <div class="projects-grid" id="projects-grid">
+        <!-- Skeleton placeholders shown while the API loads -->
+        <div class="skeleton" aria-hidden="true">
+          <div class="skel skel-title"></div>
+          <div class="skel skel-line"></div>
+          <div class="skel skel-line-sm"></div>
+          <div class="skel skel-foot"></div>
+        </div>
+        <div class="skeleton" aria-hidden="true">
+          <div class="skel skel-title"></div>
+          <div class="skel skel-line"></div>
+          <div class="skel skel-line-sm"></div>
+          <div class="skel skel-foot"></div>
+        </div>
+        <div class="skeleton" aria-hidden="true">
+          <div class="skel skel-title"></div>
+          <div class="skel skel-line"></div>
+          <div class="skel skel-line-sm"></div>
+          <div class="skel skel-foot"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <span>aaronfpp &nbsp;&middot;&nbsp; Oklahoma State University</span>
+      <a href="https://github.com/aaronfpp" target="_blank" rel="noopener">github.com/aaronfpp</a>
+    </footer>
+
+  </div><!-- /.page -->
+
+  <script>
+    /* =============================================
+       GitHub language colors (github-linguist)
+       Add entries here as needed.
+    ============================================= */
+    const LANG_COLORS = {
+      JavaScript:  '#f1e05a',
+      TypeScript:  '#3178c6',
+      Python:      '#3572A5',
+      Rust:        '#dea584',
+      Go:          '#00ADD8',
+      C:           '#555555',
+      'C++':       '#f34b7d',
+      'C#':        '#178600',
+      Java:        '#b07219',
+      Kotlin:      '#A97BFF',
+      Swift:       '#F05138',
+      Ruby:        '#701516',
+      PHP:         '#4F5D95',
+      Shell:       '#89e051',
+      PowerShell:  '#012456',
+      HTML:        '#e34c26',
+      CSS:         '#563d7c',
+      SCSS:        '#c6538c',
+      Vue:         '#41b883',
+      Svelte:      '#ff3e00',
+    };
+
+    /* =============================================
+       localStorage cache (5-min TTL)
+       Same behaviour as github-linguist standard
+       GitHub Pages sites.
+    ============================================= */
+    const CACHE_KEY = `gh_repos_${GITHUB_USER}`;
+    const CACHE_TTL = 5 * 60 * 1000;
+
+    function getCached() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (!raw) return null;
+        const { ts, data } = JSON.parse(raw);
+        if (Date.now() - ts > CACHE_TTL) return null;
+        return data;
+      } catch { return null; }
+    }
+
+    function setCache(data) {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+      } catch {}
+    }
+
+    /* =============================================
+       Status badge — derived from GitHub repo fields.
+       No manual configuration required.
+
+         repo.archived === true  →  Archived  (muted)
+         repo.homepage is set    →  Live      (green dot)
+         otherwise               →  Active    (primary blue)
+
+       To trigger Live: set the Homepage field in
+       the repo’s GitHub Settings page.
+    ============================================= */
+    function getStatus(repo) {
+      if (repo.archived) return { cls: 'badge-archived', label: 'Archived' };
+      if (repo.homepage) return { cls: 'badge-live',     label: 'Live'     };
+      return                     { cls: 'badge-active',   label: 'Active'   };
+    }
+
+    /* =============================================
+       Card renderer
+    ============================================= */
+    function renderCard(repo, index) {
+      const status  = getStatus(repo);
+      const color   = LANG_COLORS[repo.language] || '#888';
+      const desc    = repo.description
+        ? repo.description
+        : '<span class="card-desc-empty">No description provided.</span>';
+      const delay   = (index * 0.06 + 0.05).toFixed(2);
+      const liveBtn = repo.homepage
+        ? `<a href="${repo.homepage}" target="_blank" rel="noopener" class="btn btn-sm">Live ↗</a>`
+        : '';
+
+      return `
+        <article class="card" style="animation-delay:${delay}s">
+          <div class="card-name">
+            <a href="${repo.html_url}" target="_blank" rel="noopener">${repo.name}</a>
+          </div>
+          <p class="card-desc">${desc}</p>
+          <div class="card-footer">
+            <div class="card-badges">
+              <span class="badge ${status.cls}">${status.label}</span>
+              ${repo.language ? `
+                <span class="lang">
+                  <span class="lang-dot" style="background:${color}"></span>
+                  ${repo.language}
+                </span>` : ''}
+            </div>
+            <div class="card-links">
+              ${liveBtn}
+              <a href="${repo.html_url}" target="_blank" rel="noopener"
+                 class="btn btn-ghost btn-sm">Repo</a>
+            </div>
+          </div>
+        </article>`;
+    }
+
+    /* =============================================
+       Fetch & render
+    ============================================= */
+    async function loadRepos() {
+      const grid = document.getElementById('projects-grid');
+
+      let repos = getCached();
+
+      if (!repos) {
+        try {
+          const res = await fetch(
+            `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&type=public`,
+            { headers: { Accept: 'application/vnd.github+json' } }
+          );
+          if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+          repos = await res.json();
+          setCache(repos);
+        } catch (err) {
+          grid.innerHTML = `
+            <div class="api-error">
+              Could not load repositories — ${err.message}.
+              <a href="https://github.com/${GITHUB_USER}?tab=repositories"
+                 target="_blank" rel="noopener">
+                View them on GitHub &rarr;
+              </a>
+            </div>`;
+          return;
+        }
+      }
+
+      // Filter: forks, the site repo itself, and the profile README repo
+      let display = repos.filter(r => {
+        if (EXCLUDE_FORKS && r.fork)                      return false;
+        if (r.name === GITHUB_USER)                       return false; // profile README
+        if (r.name === `${GITHUB_USER}.github.io`)        return false; // this site
+        return true;
+      });
+
+      // Sort
+      if (SORT === 'stars') {
+        display.sort((a, b) => b.stargazers_count - a.stargazers_count);
+      } else if (SORT === 'created') {
+        display.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      } else {
+        // 'updated' — most recently pushed first (default)
+        display.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+      }
+
+      // Render
+      grid.innerHTML = display.length
+        ? display.map(renderCard).join('')
+        : `<div class="api-error">No public repositories found.</div>`;
+
+      // Update stats (counts from full repo list, not filtered display)
+      const totalStars = repos.reduce((n, r) => n + r.stargazers_count, 0);
+      const elRepos = document.getElementById('stat-repos');
+      const elStars = document.getElementById('stat-stars');
+      if (elRepos) { elRepos.textContent = repos.length; elRepos.classList.remove('loading'); }
+      if (elStars) { elStars.textContent = totalStars;   elStars.classList.remove('loading'); }
+    }
+
+    loadRepos();
+  </script>
+
+</body>
+</html>
