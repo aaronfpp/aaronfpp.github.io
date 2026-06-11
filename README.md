@@ -51,7 +51,7 @@ const EXCLUDE_FORKS = true;
 
 Served via **GitHub Pages** from the `main` branch root. No build step.
 
-Enable once: **Settings \u2192 Pages \u2192 Source \u2192 Deploy from branch \u2192 `main` / `/ (root)`**
+Enable once: **Settings → Pages → Source → Deploy from branch → `main` / `/ (root)`**
 
 ---
 
